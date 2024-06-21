@@ -40,26 +40,29 @@ def filter_keys_in_all(content, keyLst):
 def filter_keywords(content_dict, keyLst, checkType):
     originInfo = {}
     resultInfo = {}
-    for fileTemp in content_dict:
-        originInfo[fileTemp['filename']] = {
-            "a": [],
-            "b": []
-        }
-        filePatch = fileTemp['patch']
-        fileContent = filePatch.splitlines()
-        for line in fileContent:
-            if line.startswith("-"):
-                originInfo[fileTemp['filename']]["a"].append(line.lstrip("-"))
-            elif line.startswith("+"):
-                originInfo[fileTemp['filename']]["b"].append(line.lstrip("+"))
-     
-    if checkType == 'modify':
-        resultInfo = filter_keys_in_modify(originInfo, keyLst)
-    elif checkType == 'all':
-        resultInfo = filter_keys_in_all(originInfo, keyLst)
+    if content_dict:
+        for fileTemp in content_dict:
+            originInfo[fileTemp['filename']] = {
+                "a": [],
+                "b": []
+            }
+            filePatch = fileTemp['patch']
+            fileContent = filePatch.splitlines()
+            for line in fileContent:
+                if line.startswith("-"):
+                    originInfo[fileTemp['filename']]["a"].append(line.lstrip("-"))
+                elif line.startswith("+"):
+                    originInfo[fileTemp['filename']]["b"].append(line.lstrip("+"))
+
+        if checkType == 'modify':
+            resultInfo = filter_keys_in_modify(originInfo, keyLst)
+        elif checkType == 'all':
+            resultInfo = filter_keys_in_all(originInfo, keyLst)
+        else:
+            print("异常类型")
+            exit(1)
     else:
-        print("异常类型")
-        exit(1)
+        print("原始解析数据为空")
            
     if resultInfo:
       print(f"[FAIL]: 敏感词检查不通过{list(resultInfo.keys())}")
@@ -90,10 +93,7 @@ if __name__ == '__main__':
     checkKeys = sys.argv[2]
     jsonSource = sys.argv[3] # json文件路径
     
-    key_list = checkKeys.split(',')
+    key_list = checkKeys.split(',') #关键字以','号分隔
     content_dict = readJson(jsonSource)
-    if content_dict:
-        filter_keywords(content_dict, key_list, checkType)
-    else:
-        print("解析数据为空，退出!")
-        exit(1)
+
+    filter_keywords(content_dict, key_list, checkType)
