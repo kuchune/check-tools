@@ -60,16 +60,17 @@ def filter_keywords(content_dict, keyLst, checkType):
             resultInfo = filter_keys_in_all(originInfo, keyLst)
         else:
             print("异常类型")
-            exit(1)
+            # exit(1)
     else:
         print("原始解析数据为空")
-           
-    if resultInfo:
-      print(f"[FAIL]: 敏感词检查不通过{list(resultInfo.keys())}")
-      writeJson(resultInfo, 'result.json')
-      exit(1)
-    else:
-      print(f"[PASS]: 敏感词{checkKeys}检查通过")
+
+    # if resultInfo:
+    #   print(f"[FAIL]: 敏感词检查不通过{list(resultInfo.keys())}")
+    #   writeJson(resultInfo, 'result.json')
+    #   exit(1)
+    # else:
+    #   print(f"[PASS]: 敏感词{checkKeys}检查通过")
+    return resultInfo
 
 
 # 读取json文件
