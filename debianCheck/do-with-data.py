@@ -63,7 +63,8 @@ def filter_keywords(content_dict, keyLst, checkType):
             # exit(1)
     else:
         print("原始解析数据为空")
-
+    
+    writeJson(resultInfo, 'result.json')
     # if resultInfo:
     #   print(f"[FAIL]: 敏感词检查不通过{list(resultInfo.keys())}")
     #   writeJson(resultInfo, 'result.json')
