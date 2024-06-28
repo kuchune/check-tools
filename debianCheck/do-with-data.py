@@ -98,4 +98,4 @@ if __name__ == '__main__':
     key_list = checkKeys.split(',') #关键字以','号分隔
     content_dict = readJson(jsonSource)
 
-    print(filter_keywords(content_dict, key_list, checkType))
+    print(str(filter_keywords(content_dict, key_list, checkType)))
