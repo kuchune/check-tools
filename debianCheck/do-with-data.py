@@ -40,6 +40,7 @@ def filter_keys_in_all(content, keyLst):
 def filter_keywords(content_dict, keyLst, checkType):
     originInfo = {}
     resultInfo = {}
+    isPass = True
     if content_dict:
         for fileTemp in content_dict:
             originInfo[fileTemp['filename']] = {
@@ -64,14 +65,14 @@ def filter_keywords(content_dict, keyLst, checkType):
     else:
         print("原始解析数据为空")
     
-    writeJson(resultInfo, 'result.json')
-    # if resultInfo:
+    if resultInfo:
+        isPass = False
     #   print(f"[FAIL]: 敏感词检查不通过{list(resultInfo.keys())}")
-    #   writeJson(resultInfo, 'result.json')
+        writeJson(resultInfo, 'result.json')
     #   exit(1)
     # else:
     #   print(f"[PASS]: 敏感词{checkKeys}检查通过")
-    return resultInfo
+    return isPass
 
 
 # 读取json文件
