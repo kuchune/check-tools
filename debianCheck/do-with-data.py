@@ -54,14 +54,14 @@ def filter_keywords(content_dict, keyLst, checkType):
                 "a": [],
                 "b": []
             }
-            filePatch = fileTemp['patch']
-            fileContent = filePatch.splitlines()
-            for line in fileContent:
-                if line.startswith("-"):
-                    originInfo[fileTemp['filename']]["a"].append(line.lstrip("-"))
-                elif line.startswith("+"):
-                    originInfo[fileTemp['filename']]["b"].append(line.lstrip("+"))
-
+            if 'patch' in fileTemp.keys():
+                filePatch = fileTemp['patch']
+                fileContent = filePatch.splitlines()
+                for line in fileContent:
+                    if line.startswith("-"):
+                        originInfo[fileTemp['filename']]["a"].append(line.lstrip("-"))
+                    elif line.startswith("+"):
+                        originInfo[fileTemp['filename']]["b"].append(line.lstrip("+"))
         if checkType == 'modify':
             resultInfo = filter_keys_in_modify(originInfo, keyLst)
         elif checkType == 'all':
