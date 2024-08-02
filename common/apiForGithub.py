@@ -4,7 +4,7 @@ import requests
 import time
 
 # 环境变量中获取参数
-REPO = os.environ.get("REPO_NAME", "reviews-team-test/test_jenkins")
+REPO = os.environ.get("REPO", "reviews-team-test/test_jenkins")
 PULL_NUMBER = os.environ.get("PULL_NUMBER", "3")
 GITHUB_TOKEN = os.environ.get("GITHUB_TOKEN")
 reviewers = os.environ.get("reviewers", "ckux")
