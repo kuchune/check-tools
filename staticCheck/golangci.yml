@@ -69,13 +69,13 @@ linters:
     # 检查err的定义规范--types类型的定义是以Error结尾的，常量的定义是Err打头的
     - errname
     # 禁止errors使用'=='和'!='等表达式--与nil和io.EOF比较除外
-    - err113
+    - goerr113
     # 官方代码格式化
     - gofmt
     - gofumpt
     - goimports
     # 禁止使用魔法数字
-    - mnd
+    - gomnd
     # 检查类似printf的函数是否以f结尾
     - goprintffuncname
     # 安全检查
