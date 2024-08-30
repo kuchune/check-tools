@@ -8,8 +8,8 @@ REPO = os.environ.get("REPO", "reviews-team-test/test_jenkins")
 PULL_NUMBER = os.environ.get("PULL_NUMBER", "6")
 GITHUB_TOKEN = os.environ.get("GITHUB_TOKEN")
 reviewers = os.environ.get("reviewers", "ckux")
-reviewer_teams = os.environ.get("reviewer_teams", "ckux-team")
-comment_path = os.environ.get("comment_path", "./comment.txt")
+# reviewer_teams = os.environ.get("reviewer_teams", "ckux-team")
+# comment_path = os.environ.get("comment_path", "./comment.txt")
 
 def retry(tries=3, delay=1):
     def decorator(func):
@@ -87,52 +87,52 @@ def addReviewers(reviewers):
         msg += "成功"
     print(msg)
     
-def checkExistReviewers(reviewers, team_reviewers):
-    existReviewers = []
-    existReviewerTeams = []
-    reviewerLst, reviewerTeamLst = getReviewers()
-    for reviewerName in reviewers.split(','):
-        for userLogin in reviewerLst:
-            if userLogin == reviewerName:
-                existReviewers.append(reviewerName)
+# def checkExistReviewers(reviewers, team_reviewers):
+#     existReviewers = []
+#     existReviewerTeams = []
+#     reviewerLst, reviewerTeamLst = getReviewers()
+#     for reviewerName in reviewers.split(','):
+#         for userLogin in reviewerLst:
+#             if userLogin == reviewerName:
+#                 existReviewers.append(reviewerName)
                 
-    for reviewerTeamName in team_reviewers.split(','):
-        for teamName in reviewerTeamLst:
-            if teamName == reviewerTeamName:
-                existReviewerTeams.append(reviewerTeamName)
+#     for reviewerTeamName in team_reviewers.split(','):
+#         for teamName in reviewerTeamLst:
+#             if teamName == reviewerTeamName:
+#                 existReviewerTeams.append(reviewerTeamName)
                     
-    return existReviewers, existReviewerTeams
+#     return existReviewers, existReviewerTeams
 
-def checkReviewerActionStatus(checkType, reviewersMsg, memberLst, teamList):
-    memberLst2, teamList2 = checkExistReviewers(reviewers, reviewer_teams)
-    checkResult = "成功"
-    if checkType == '添加':
-        if reviewers not in memberLst2:
-            checkResult = "失败"
-    if checkType == '删除':
-        for member in memberLst:       
-            if member in memberLst2:
-                checkResult = "失败"
-        for teamMem in teamList:
-            if teamMem not in teamList2:
-                checkResult = "失败"
-    print("检查"+checkType+reviewersMsg+checkResult)
+# def checkReviewerActionStatus(checkType, reviewersMsg, memberLst, teamList):
+#     memberLst2, teamList2 = checkExistReviewers(reviewers, reviewer_teams)
+#     checkResult = "成功"
+#     if checkType == '添加':
+#         if reviewers not in memberLst2:
+#             checkResult = "失败"
+#     if checkType == '删除':
+#         for member in memberLst:       
+#             if member in memberLst2:
+#                 checkResult = "失败"
+#         for teamMem in teamList:
+#             if teamMem not in teamList2:
+#                 checkResult = "失败"
+#     print("检查"+checkType+reviewersMsg+checkResult)
 
-def checkRiewer():
-    memberLst, teamList = checkExistReviewers(reviewers, reviewer_teams)
-    checkType = "添加"
-    checkResult = "成功"
-    reviewersMsg = ""
-    if os.path.isfile(comment_path):
-        reviewersMsg = reviewers
-        if not memberLst:
-            checkResult = addReviewers(reviewers)
-    else:
-        reviewersMsg = f"{reviewers}和{reviewer_teams}"
-        checkType = '删除'
-        if memberLst or teamList:
-            checkResult = removeReviewers(memberLst, teamList)
-    print(checkType+reviewersMsg+str(checkResult))
+# def checkReviwer():
+#     memberLst, teamList = checkExistReviewers(reviewers, reviewer_teams)
+#     checkType = "添加"
+#     checkResult = "成功"
+#     reviewersMsg = ""
+#     if os.path.isfile(comment_path):
+#         reviewersMsg = reviewers
+#         if not memberLst:
+#             checkResult = addReviewers(reviewers)
+#     else:
+#         reviewersMsg = f"{reviewers}和{reviewer_teams}"
+#         checkType = '删除'
+#         if memberLst or teamList:
+#             checkResult = removeReviewers(memberLst, teamList)
+#     print(checkType+reviewersMsg+str(checkResult))
     
 addReviewers(reviewers)
 
