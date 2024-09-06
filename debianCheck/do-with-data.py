@@ -45,11 +45,20 @@ def filter_keys_in_all(content, keyLst):
 
 
 def filter_keywords(content_dict, keyLst, checkType):
+    NoNeedSuffix = [".js", ".vue", ".ts", ".less", ".html", ".go", ".css", ".json", ".txt", ".doc", ".jpg", ".png", ".svg", ".py", '.yml', '.md', '.sha1', '.log']
     originInfo = {}
     resultInfo = {}
     isPass = True
     if content_dict:
         for fileTemp in content_dict:
+            noNeed = False
+            filename = fileTemp['filename']
+            for endString in NoNeedSuffix:
+                if filename.endswith(endString):
+                    noNeed = True
+                    break
+            if noNeed:
+                continue
             originInfo[fileTemp['filename']] = {
                 "a": [],
                 "b": []
