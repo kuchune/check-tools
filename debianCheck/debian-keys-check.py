@@ -76,6 +76,10 @@ def filter_keywords(content_dict, keyJson):
                     elif line.startswith("+"):
                         originInfo[fileTemp['filename']]["b"].append(line.lstrip("+"))
         
+        reportDir = 'artifact'
+        if os.path.exists(reportDir):
+            os.rmdir(reportDir)
+        os.makedirs(reportDir)
         for checkType in keyJson:
             keyLst = keyJson[checkType].split(',') #关键字以','号分隔
             # resultInfo = filter_keywords(pfInfo, key_list, check_type)
@@ -88,7 +92,7 @@ def filter_keywords(content_dict, keyJson):
                 # exit(1)
             if resultInfo:
                 isPass = False
-                writeJson(resultInfo, f'result-{checkType}.json')
+                writeJson(resultInfo, f'{reportDir}/result-{checkType}.json')
     else:
         print("原始解析数据为空")
     
