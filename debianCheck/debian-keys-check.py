@@ -50,7 +50,7 @@ def filter_keys_in_all(content, keyLst):
 # 写comment文件
 def writeCommentFile(commentMsg):
   try:
-    print(commentMsg)
+    # print(commentMsg)
     with open('comment.txt', "a+") as fout:
       fout.write(commentMsg+'\n')
   except Exception as e:
@@ -84,10 +84,10 @@ def filter_keywords(content_dict, keyJson):
                     elif line.startswith("+"):
                         originInfo[fileTemp['filename']]["b"].append(line.lstrip("+"))
         
-        reportDir = 'artifact'
-        if os.path.exists(reportDir):
-            os.rmdir(reportDir)
-        os.makedirs(reportDir)
+        # reportDir = 'artifact'
+        # if os.path.exists(reportDir):
+        #     os.removedirs(reportDir)
+        # os.makedirs(reportDir)
         for checkType in keyJson:
             keyLst = keyJson[checkType].split(',') #关键字以','号分隔
             # resultInfo = filter_keywords(pfInfo, key_list, check_type)
@@ -113,7 +113,7 @@ def filter_keywords(content_dict, keyJson):
 </details>
 '''
                 writeCommentFile(logMsg)
-                writeJson(resultInfo, f'{reportDir}/result-{checkType}.json')
+                # writeJson(resultInfo, f'{reportDir}/result-{checkType}.json')
     else:
         print("原始解析数据为空")
     
