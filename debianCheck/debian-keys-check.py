@@ -4,8 +4,8 @@ import os
 
 # check_type = os.environ.get("check_type", "all")
 # check_keys = os.environ.get("check_keys", "export,unset")
-repo_name = os.environ.get("repo_name", "reviews-team-test/test_jenkins")
-pull_number = os.environ.get("pull_number", "3")
+repo_name = os.environ.get("repo_name", "reviews-team-test/dde-file-manager")
+pull_number = os.environ.get("pull_number", "1")
 api_token = os.environ.get("api_token")
 
 # key_list = check_keys.split(',') #关键字以','号分隔
@@ -47,7 +47,15 @@ def filter_keys_in_all(content, keyLst):
                             strJson[keyStr][fileName][actionType].append(lineContent)
     return strJson
 
-
+# 写comment文件
+def writeCommentFile(commentMsg):
+  try:
+    print(commentMsg)
+    with open('comment.txt', "a+") as fout:
+      fout.write(commentMsg+'\n')
+  except Exception as e:
+    print(f"[ERR]: writeCommentFile异常报错-{e}")
+    
 def filter_keywords(content_dict, keyJson):
     NoNeedSuffix = [".js", ".vue", ".ts", ".less", ".html", ".go", ".css", ".json", ".txt", ".doc", ".jpg", ".png", ".svg", ".py", '.yml', '.md', '.sha1', '.log']
     originInfo = {}
@@ -92,6 +100,19 @@ def filter_keywords(content_dict, keyJson):
                 # exit(1)
             if resultInfo:
                 isPass = False
+                resultInfoKeys = ', '.join(list(resultInfo.keys()))
+                resultInfoMsg = json.dumps(resultInfo, indent=4)
+                logMsg = f'''
+- 检测到敏感词{resultInfoKeys}变动;
+<details>
+<summary>详情</summary>
+
+```ruby
+    {resultInfoMsg}
+```
+</details>
+'''
+                writeCommentFile(logMsg)
                 writeJson(resultInfo, f'{reportDir}/result-{checkType}.json')
     else:
         print("原始解析数据为空")
